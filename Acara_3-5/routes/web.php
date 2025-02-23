@@ -19,7 +19,7 @@ Route::get('foo', function () {
 Route::get('user/{id}', fn($id) => 'Hello ' . $id);
 
 Route::get('post/{post}/comments/{comment}', function ($postId, $commentId) {
-    //
+    
 });
 
 // Daftar Metode
@@ -109,6 +109,18 @@ Route::delete('/user/{id}', [ManagementUserController::class, 'destroy']);
 
 /**
  * Selesai Acara 5
+ */
+
+// ------------------------------------------------------------
+
+/**
+ * Mulai Acara 6
+ */
+
+ Route::get('beranda', [ManagementUserController::class, 'index']);
+
+ /**
+ * Selesai Acara 6
  */
 
 // ------------------------------------------------------------
