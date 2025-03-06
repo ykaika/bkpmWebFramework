@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -61,7 +61,7 @@ class LoginController extends Controller
 
         // LAKUKAN LOGIN
         if (Auth::attempt($login)) {
-            return redirect()->route('home');
+            return redirect()->intended('/dashboard');
         }
 
         // JIKA SALAH, MAKA KEMBALI KE LOGIN DAN TAMPILKAN NOTIFIKASI
