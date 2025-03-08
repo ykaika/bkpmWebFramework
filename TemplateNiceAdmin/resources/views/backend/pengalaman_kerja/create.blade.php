@@ -27,26 +27,35 @@
                 </ul>
             </div>
             @endif
-            <form action="{{ route('pengalaman_kerja.store') }}" method="POST">
+            <form action="{{ isset($pengalaman_kerja) ? route('pengalaman_kerja.update', $pengalaman_kerja->id) : route('pengalaman_kerja.store') }}" method="POST">
                 @csrf
-                <div class="form-group mb-3"> <!-- Margin bawah -->
+                @if(isset($pengalaman_kerja))
+                @method('PUT')
+                <input type="hidden" name="id" value="{{ $pengalaman_kerja->id }}">
+                @endif
+
+                <div class="form-group mb-3">
                     <label>Nama Perusahaan</label>
-                    <input type="text" name="name" class="form-control" required>
+                    <input type="text" name="name" class="form-control" value="{{ isset($pengalaman_kerja) ? $pengalaman_kerja->name : '' }}" required>
                 </div>
+
                 <div class="form-group mb-3">
                     <label>Jabatan</label>
-                    <input type="text" name="jabatan" class="form-control" required>
+                    <input type="text" name="jabatan" class="form-control" value="{{ isset($pengalaman_kerja) ? $pengalaman_kerja->jabatan : '' }}" required>
                 </div>
+
                 <div class="form-group mb-3">
                     <label>Tahun Masuk</label>
-                    <input type="number" name="tahun_masuk" class="form-control" required>
+                    <input type="number" name="tahun_masuk" class="form-control" value="{{ isset($pengalaman_kerja) ? $pengalaman_kerja->tahun_masuk : '' }}" required>
                 </div>
+
                 <div class="form-group mb-3">
                     <label>Tahun Keluar</label>
-                    <input type="number" name="tahun_keluar" class="form-control">
+                    <input type="number" name="tahun_keluar" class="form-control" value="{{ isset($pengalaman_kerja) ? $pengalaman_kerja->tahun_keluar : '' }}">
                 </div>
-                <div class="mt-4"> <!-- Jarak atas buat tombol -->
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">{{ isset($pengalaman_kerja) ? 'Update' : 'Simpan' }}</button>
                 </div>
             </form>
         </div>
