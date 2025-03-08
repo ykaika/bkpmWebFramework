@@ -40,83 +40,18 @@
 
 <body>
 
+
   <!-- ======= Header ======= -->
-    @yield('header')
+  @include('components.header')
   <!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
-  @yield('aside')
+  @include('components.aside')
   <!-- End Sidebar-->
 
   <main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
-
-    <section class="section dashboard">
-      <div class="row">
-
-        <!-- Left side columns -->
-        <div class="col-lg-8">
-          <div class="row">
-
-            <!-- Sales Card -->
-            @yield('sales-card')
-            <!-- End Sales Card -->
-
-            <!-- Revenue Card -->
-            @yield('revenue-card')
-            <!-- End Revenue Card -->
-
-            <!-- Customers Card -->
-            @yield('customer-card')
-            <!-- End Customers Card -->
-
-            <!-- Reports -->
-            @yield('report-card')
-            <!-- End Reports -->
-
-            <!-- Recent Sales -->
-            @yield('recent-sales')
-            <!-- End Recent Sales -->
-
-            <!-- Top Selling -->
-            @yield('top-selling')
-            <!-- End Top Selling -->
-
-          </div>
-        </div><!-- End Left side columns -->
-
-        <!-- Right side columns -->
-        <div class="col-lg-4">
-
-          <!-- Recent Activity -->
-          @yield('recent-activity')
-          <!-- End Recent Activity -->
-
-          <!-- Budget Report -->
-          @yield('budge-report')
-          <!-- End Budget Report -->
-
-          <!-- Website Traffic -->
-          @yield('website-traffic')
-          <!-- End Website Traffic -->
-
-          <!-- News & Updates Traffic -->
-          @yield('update-traffic')
-          <!-- End News & Updates -->
-
-        </div><!-- End Right side columns -->
-
-      </div>
-    </section>
+    @yield('content')
 
   </main><!-- End #main -->
 
@@ -148,6 +83,31 @@
 
   <!-- Template Main JS File -->
   <script src={{asset("assets/js/main.js")}}></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Ambil URL saat ini
+      var currentUrl = window.location.href;
+
+      // Loop semua link di sidebar
+      document.querySelectorAll("#sidebar-nav a").forEach(function(link) {
+        if (currentUrl.includes(link.href)) {
+          // Tambahkan class 'active' ke menu yang sesuai
+          link.classList.add("active");
+
+          // Jika menu ada di dalam dropdown, buka dropdown-nya
+          let parentUl = link.closest("ul");
+          if (parentUl && parentUl.classList.contains("nav-content")) {
+            parentUl.classList.add("show");
+            let parentLink = parentUl.previousElementSibling;
+            if (parentLink) {
+              parentLink.classList.remove("collapsed");
+            }
+          }
+        }
+      });
+    });
+  </script>
 
 </body>
 

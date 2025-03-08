@@ -1,14 +1,34 @@
-@section('aside')
 <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="index.html">
+            <a class="nav-link {{ Request::is('dashboard') ? '' : 'collapsed' }}" href="{{ route('dashboard.index') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
-        </li><!-- End Dashboard Nav -->
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('pendidikan') || Request::is('pengalaman_kerja') ? '' : 'collapsed' }}" data-bs-target="#riwayat-hidup-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-file-earmark-text"></i><span>Riwayat Hidup</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="riwayat-hidup-nav" class="nav-content collapse {{ Request::is('pendidikan') || Request::is('pengalaman_kerja') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ url('pendidikan') }}" class="{{ Request::is('pendidikan') ? 'active' : '' }}">
+                        <i class="bi bi-circle"></i>
+                        <span>Pendidikan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('pengalaman_kerja.index') }}" class="{{ Request::is('pengalaman_kerja') ? 'active' : '' }}">
+                        <i class="bi bi-circle"></i>
+                        <span>Pengalaman Kerja</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
@@ -235,4 +255,3 @@
     </ul>
 
 </aside>
-@endsection

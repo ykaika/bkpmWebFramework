@@ -1,9 +1,7 @@
-@extends('layouts.layout')
+@extends('dashboard')
 
-@include('components.aside')
 @include('components.budgeReport')
 @include('components.customerCard')
-@include('components.header')
 @include('components.recentActivityCard')
 @include('components.recentSales')
 @include('components.reportCard')
