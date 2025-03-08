@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="pagetitle mb-4"> <!-- Kasih margin bawah -->
+<div class="pagetitle mb-4">
     <h1>Tambah Pengalaman Kerja</h1>
     <nav>
         <ol class="breadcrumb">
@@ -15,9 +15,8 @@
 </div><!-- End Page Title -->
 
 <section class="wrapper">
-    <div class="panel panel-default mb-4"> <!-- Margin bawah -->
-        <div class="panel-heading fw-semibold fs-5 mb-3 text-center">Form Tambah Pengalaman Kerja</div> <!-- Jarak bawah -->
-        <div class="panel-body">
+    <div class="panel panel-default mb-4">
+        <div class="panel-heading fw-semibold fs-5 mb-3 text-center">Form Tambah Pengalaman Kerja</div> 
             @if ($errors->any())
             <div class="alert alert-danger mb-3">
                 <ul>
@@ -55,7 +54,8 @@
                 </div>
 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">{{ isset($pengalaman_kerja) ? 'Update' : 'Simpan' }}</button>
+                    <button type="submit" class="btn btn-primary">{{ isset($pengalaman_kerja) ? 'Update' : 'Save' }}</button>
+                    <a href="{{ route('pengalaman_kerja.index') }}" class="btn btn-default">Cancel</a>
                 </div>
             </form>
         </div>
