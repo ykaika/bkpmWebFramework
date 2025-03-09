@@ -20,9 +20,25 @@ class PegawaiController extends Controller
     {
         return view('formulir');
     }
-    
+
     public function proses(Request $request)
     {
+
+        $messages = [
+            'required' => 'Input :attribute wajib diisi!',
+            'min' => 'Input :attribute harus diisi minimal :min karakter!',
+            'max' => 'Input :attribute harus diisi maksimal :max karakter!',
+            'alpha' => 'Input :attribute tidak boleh mengandung angka',
+            'string' => 'Input :attribute harus berupa teks!',
+        ];
+
+        // Validasi input
+        $request->validate([
+            'nama' => 'required|min:5|max:30|alpha|string',
+            'alamat' => 'required|min:5|string',
+        ], $messages);
+
+        //Ambil data input
         $nama = $request->input('nama');
         $alamat = $request->input('alamat');
 
