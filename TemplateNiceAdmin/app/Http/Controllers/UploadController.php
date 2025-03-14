@@ -10,7 +10,7 @@ class UploadController extends Controller
 {
     public function upload()
     {
-        return view('upload');
+        return view('upload.upload');
     }
 
     public function proses_upload(Request $request)
@@ -86,5 +86,35 @@ class UploadController extends Controller
         } else {
             return redirect(route('upload'))->with('error', 'Data gagal ditambahkan!');
         }
+    }
+
+    public function dropzone()
+    {
+        return view('upload.dropzone');
+    }
+
+    public function dropzone_store(Request $request)
+    {
+        $image = $request->file('file');
+
+        $imageName = time() . '.' . $image->extension();
+        $image->move(public_path('img/dropzone'), $imageName);
+
+        return response()->json(['success' => $imageName]);
+    }
+
+    public function pdf_upload()
+    {
+        return view('upload.pdf_upload');
+    }
+
+    public function pdf_store(Request $request)
+    {
+        $pdf = $request->file('file');
+
+        $pdfName = 'pdf_' . time() . '.' . $pdf->extension();
+        $pdf->move(public_path('pdf/dropzone'), $pdfName);
+
+        return response()->json(['success' => $pdfName]);
     }
 }
