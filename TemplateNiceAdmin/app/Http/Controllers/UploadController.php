@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class UploadController extends Controller
 {
@@ -51,38 +52,45 @@ class UploadController extends Controller
     public function resize_upload(Request $request)
     {
         $request->validate([
-            'file' => 'required',
+            'file' => 'required|image|mimes:jpg,png,jpeg|max:2048',
             'keterangan' => 'required',
         ]);
 
         // Tentukan path lokasi upload
         $path = public_path('img/logo');
 
-        // Jika folder belum ada, buat folder tersebut
+        // Jika folder belum ada, buat foldernya
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true);
         }
 
-        // Mengambil file image dari form
+        // Ambil file dari form
         $file = $request->file('file');
 
-        // Membuat nama file dari gabungan uniqid dan ekstensi asli
+        // Buat nama file baru dengan uniqid
         $fileName = 'logo_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-        // Membuat canvas image dengan ukuran tertentu
-        $canvas = Image::canvas(200, 200);
+        // Gunakan ImageManager dengan GD Driver
+        $manager = new ImageManager(new Driver());
 
-        // Resize image sesuai dengan mempertahankan aspek rasio
-        $resizeImage = Image::make($file)->resize(null, 200, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        // Baca file
+        $image = $manager->read($file->getPathname());
 
-        // Memasukkan image yang telah di-resize ke dalam canvas
-        $canvas->insert($resizeImage, 'center');
+        // Resize image sesuai tinggi 200px dengan mempertahankan aspect ratio
+        $image->scale(height: 200);
+
+        // Buat canvas ukuran 200x200
+        $canvas = $manager->create(200, 200);
+
+        // Masukkan gambar yang telah di-resize ke dalam canvas (posisi tengah)
+        $canvas->place($image, 'center');
 
         // Simpan image ke folder
+        $canvas->save($path . '/' . $fileName);
+
+        // Simpan image ke folder dan cek apakah berhasil
         if ($canvas->save($path . '/' . $fileName)) {
-            return redirect(route('upload'))->with('success', 'Data berhasil ditambahkan!');
+            return redirect(route('upload'))->with('success', 'Data berhasil ditambahkan (resize)!');
         } else {
             return redirect(route('upload'))->with('error', 'Data gagal ditambahkan!');
         }
