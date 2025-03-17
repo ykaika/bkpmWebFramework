@@ -63,6 +63,7 @@ Route::middleware([CorsMiddleware::class])->group(function () {
     Route::get('/pendidikan', [ApiPendidikanController::class, 'getAll']);
 });
 
+//Acara 22
 Route::group(['prefix' => 'api'], function () {
     Route::get('api_pendidikan', [ApiPendidikanController::class, 'getAll']);
     Route::get('api_pendidikan/{id}', [ApiPendidikanController::class, 'getPen']);
